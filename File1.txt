@@ -1,0 +1,64 @@
+1..React Element Creation with the Help of Jsx i.e 
+const reactHeading = <h1 className="heading1">Hello React First code</h1>;
+
+2. If only one HTML Tag then a single line else enclose it in the Fragment 
+const reactHeading = <>
+                <h1 className="heading1">Hello React First code</h1>;
+                <h1 className="heading1">Hello React Second code</h1>;
+                    <>
+
+3. React is SPA i.e only Single HTML File will be loaded in the Browser on Starting From Web Server and thats it 
+Rest the site will change on Interaction . only Changing in Respective Components with the Help of Routing and all 
+Hence Makes it Faster 
+
+While React is often used for SPAs, it can also be used in:
+1.Static sites (with Gatsby/Next.js)
+2.Server-rendered apps (with Next.js)
+3.Mobile apps (React Native)
+
+4.Virtual Dom vs Browser Dom
+
+In React , with taking the help of Virtual Dom it just replaces the updated copy of DOM Tree with the Original 
+DOM Tree.
+
+Browser DOM: Imagine rewriting a 500-page book every time you change one word.
+Virtual DOM: You make a copy of the book, highlight the one word that changed, 
+then replace only that word in the original book.
+
+Why Virtual DOM Feels Faster
+1.Batching: React groups many updates together instead of doing them one by one.
+2.Diffing algorithm: Finds the smallest set of DOM changes.
+3.Minimal reflows: Browser only recalculates layout for changed parts.
+4.Memory-first updates: Most work happens in JavaScript memory, not in the heavy DOM engine.
+
+5. <script language="javaScript">
+heading = React.createElement("h1", null, "Hello");
+ReactDOM.createRoot(document.getElementById("root")).render(heading);
+</script>
+
+
+Main Element is Rendered on Root . Rest all are created inside Main element.
+root.render(element, container element);
+
+6. AND (first falsy or last truthy)
+Koi bhi falsy value miljaye mein vo return kardunga (Bina idhar udhar Dekhe)
+Varna agar koi bhi value false nahi hai toh last truthy value return kardunga
+
+OR (first truthy or last falsy)
+koi bhi truthy value miljaye return kardunga (thats my task to represent truth asap)
+varna agar koi truty nahi mili toh last falsy value return kar dunga 
+
+JSX elements are considered truthy value 
+
+
+Only 7 values are falsy:
+1.false
+2.0 (zero)
+3.-0 (negative zero)
+4.0n (BigInt zero)
+5."" (empty string)
+6.null
+7.undefined
+8.NaN
+
+(That’s it — everything else is truthy, even things like "0", "false", [], {}, etc.)
