@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual DOM Diff Visualization</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        background: #0f2027;
+        color: #fff;
+        font-family: monospace;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .demo {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .section {
+        flex: 1;
+        min-width: 320px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 12px;
+      }
+      pre {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 8px;
+        overflow-x: auto;
+        max-height: 300px;
+      }
+      .changed {
+        color: #ff6;
+        font-weight: bold;
+      }
+      .unchanged {
+        color: #aaa;
+      }
+      .added {
+        color: #0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Virtual DOM Diff Viewer</h1>
+
+    <div class="demo">
+      <!-- React Render Area -->
+      <div class="section" id="react-root"></div>
+
+      <!-- Diff Viewer -->
+      <div class="section">
+        <h2>Virtual DOM Diff</h2>
+        <pre id="diff-output">Waiting for updates...</pre>
+      </div>
+    </div>
+
+    <script type="text/babel">
+      function VirtualBoxes() {
+        const [boxes, setBoxes] = React.useState(Array(10).fill(0)); // keep only 10 for readability
+        const [prevTree, setPrevTree] = React.useState(null);
+
+        React.useEffect(() => {
+          const interval = setInterval(() => {
+            // store old tree
+            setPrevTree(boxes);
+
+            // create new tree
+            setBoxes((prev) => prev.map((x, i) => (i === 3 ? x + 1 : x))); // only update box #3
+          }, 2000);
+          return () => clearInterval(interval);
+        }, [boxes]);
+
+        // Show diff
+        React.useEffect(() => {
+          if (!prevTree) return;
+          const newTree = boxes;
+
+          let output = "";
+          for (let i = 0; i < newTree.length; i++) {
+            if (prevTree[i] !== newTree[i]) {
+              output += `<span class="changed">Box ${i}: ${prevTree[i]} → ${newTree[i]}</span>\n`;
+            } else {
+              output += `<span class="unchanged">Box ${i}: ${newTree[i]}</span>\n`;
+            }
+          }
+
+          document.getElementById("diff-output").innerHTML = output;
+        }, [boxes]);
+
+        return (
+          <div>
+            <h2>Virtual DOM</h2>
+            <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
+              {boxes.map((val, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    background: i === 3 ? "limegreen" : "gray",
+                    color: "#000",
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {val}
+                </div>
+              ))}
+            </div>
+            <p>(Only Box #3 updates every 2s)</p>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("react-root"));
+      root.render(<VirtualBoxes />);
+    </script>
+  </body>
+</html>
