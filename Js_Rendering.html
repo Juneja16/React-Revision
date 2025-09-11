@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Data Types Renderer</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        max-width: 1000px;
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      header {
+        background: #4e54c8;
+        color: white;
+        padding: 25px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h3 {
+        color: #4e54c8;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .data-item {
+        margin: 15px 0;
+        padding: 12px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid #4e54c8;
+      }
+
+      .data-type {
+        font-weight: bold;
+        color: #6c757d;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+      }
+
+      .data-value {
+        font-size: 1.1rem;
+        color: #212529;
+        word-break: break-all;
+      }
+
+      .explanation {
+        background: #e9ecef;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        grid-column: 1 / -1;
+      }
+
+      .explanation h3 {
+        color: #4e54c8;
+        margin-bottom: 15px;
+      }
+
+      .explanation p {
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      .code {
+        font-family: "Courier New", monospace;
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin-top: 15px;
+      }
+
+      .keyword {
+        color: #f92672;
+      }
+
+      .function {
+        color: #66d9ef;
+      }
+
+      .string {
+        color: #a6e22e;
+      }
+
+      .number {
+        color: #ae81ff;
+      }
+
+      .comment {
+        color: #75715e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // This is the function from the example
+      function sum(a, b) {
+        return a + b;
+      }
+
+      // JSX element from the example
+      const header = <h1>That's Header Content</h1>;
+
+      // Additional data examples
+      const arrayExample = [1, 2, 3, 4, 5];
+      const objectExample = { name: "John", age: 30 };
+      const dateExample = new Date();
+
+      function App() {
+        // Variables from the example
+        var num = 100,
+          str = "sadlkvnasn",
+          bool_var = true,
+          null_var = null,
+          undefined_var;
+
+        return (
+          <div className="container">
+            <header>
+              <h1>React Data Types Renderer</h1>
+              <p className="subtitle">
+                How different data types are rendered in JSX
+              </p>
+            </header>
+
+            <div className="content">
+              <div className="card">
+                <h3>Primitive Data Types</h3>
+                <div className="data-item">
+                  <span className="data-type">Number</span>
+                  <span className="data-value">{num}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">String</span>
+                  <span className="data-value">{str}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Boolean</span>
+                  <span className="data-value">{bool_var.toString()}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Null</span>
+                  <span className="data-value">{null_var}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Undefined</span>
+                  <span className="data-value">{undefined_var}</span>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3>Complex Data Types</h3>
+                <div className="data-item">
+                  <span className="data-type">Function Result</span>
+                  <span className="data-value">{sum(90, 100)}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Array</span>
+                  <span className="data-value">{arrayExample.join(", ")}</span>
+                  <span className="data-value">{arrayExample}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Object (stringified)</span>
+                  <span className="data-value">
+                    {JSON.stringify(objectExample)}
+                  </span>
+                  <span className="data-value">{objectExample.name}</span>
+                  <span className="data-value">{objectExample.age}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">Date</span>
+                  <span className="data-value">{dateExample.toString()}</span>
+                </div>
+                <div className="data-item">
+                  <span className="data-type">JSX Element</span>
+                  <span className="data-value">Check the header above</span>
+                </div>
+              </div>
+
+              <div className="explanation">
+                <h3>How JSX Renders Different Data Types</h3>
+                <p>
+                  JSX can render various data types by embedding expressions
+                  with curly braces &#123;&#125;:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Numbers</strong>: Displayed directly
+                  </li>
+                  <li>
+                    <strong>Strings</strong>: Displayed as text
+                  </li>
+                  <li>
+                    <strong>Booleans</strong>: Not displayed by default (need
+                    toString())
+                  </li>
+                  <li>
+                    <strong>Null/Undefined</strong>: Not rendered (invisible)
+                  </li>
+                  <li>
+                    <strong>Arrays</strong>: Converted to comma-separated
+                    strings
+                  </li>
+                  <li>
+                    <strong>Objects</strong>: Must be stringified to avoid
+                    errors
+                  </li>
+                  <li>
+                    <strong>Functions</strong>: Can be called to return a value
+                  </li>
+                  <li>
+                    <strong>JSX elements</strong>: Rendered as HTML
+                  </li>
+                </ul>
+
+                <div className="code">
+                  <span className="keyword">function</span>{" "}
+                  <span className="function">sum</span>(a, b) &#123;
+                  <br />
+                  &nbsp;&nbsp;<span className="keyword">return</span> a + b;
+                  <br />
+                  &#125;
+                  <br />
+                  <span className="keyword">const</span> header =
+                  &lt;h1&gt;That's Header Content&lt;/h1&gt;;
+                  <br />
+                  <br />
+                  <span className="comment">// In component return:</span>
+                  <br />
+                  &lt;p&gt;Number: &#123;num&#125;&lt;/p&gt;
+                  <br />
+                  &lt;p&gt;String: &#123;str&#125;&lt;/p&gt;
+                  <br />
+                  &lt;p&gt;Boolean: &#123;bool_var.toString()&#125;&lt;/p&gt;
+                  <br />
+                  &lt;p&gt;Function result: &#123;sum(90, 100)&#125;&lt;/p&gt;
+                  <br />
+                  &#123;header&#125;
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
