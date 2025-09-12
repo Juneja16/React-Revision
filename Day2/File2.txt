@@ -1,0 +1,71 @@
+1. Forms me 2 hi tarike hain 
+   a. useState yani React ko use karke uske ander state define karlo (variables if not using React Hooks)
+   that will be managed by Virtual Dom hence onChange can be used here Direct Reflections are shown
+
+   b. useRef jo ki generally final value collect karke kisi agle operation me use karlo 
+   isliye kiya jyata hai 
+
+
+   When Immediate Changes wants to be seen use onchange with ReactState
+   When OnSubmit required then use useref variables 
+
+
+
+2. 3 Codes are shown
+a.Forms in JSX
+  hame Kya karna hai . Form se value collect karo aur neeche Table me as a row add kardo 
+  Toh hame useRef Hook use karenge , Submit button click karte hi Array me values ko add kardenge
+  Ref.current.value ko clear kardenge to take next input 
+  and then App component ko render kardenge the updated array will be rendered as a row in the Table
+
+b. Quotify App
+
+Same but slight change now instead of  adding in the table (the data collected )
+we will add in the array and directly show that using Proper CSS 
+
+c. CMT Restaurant Seat Booking on First on First Basis 
+Form se data collect karlo when the Form gets submitted (i.e use of useRef)
+Data verify karlo i.e booked seats <=seats Left and then Booking Confirm kardo with 
+the extra parameter inTime and an extra button DeleteBooking 
+and also clear up the Ref value so that next booking can be taken
+
+Table ko update kardo render pe and deleteBooking ko fxnality likdo
+DeleteBooking me Array me use intime pe booking Doondhlo and then Filter the Original array 
+and then render the App again with the seats updated 
+
+
+3..In ReactDOM → events are synthetic, tied to the Virtual DOM,
+ React batches updates and re-renders components efficiently.
+
+
+ ⚛️ React (Synthetic Events & Virtual DOM)
+
+In React:
+
+You still write onChange, onClick, onSubmit.
+
+BUT they are not directly the browser events.
+
+React wraps them inside its Synthetic Event system:
+
+React listens at the root (document) once.
+
+It funnels all real browser events into its Virtual DOM event system.
+
+Then React decides which component’s handler to call.
+
+👉 This makes events cross-browser consistent and integrates with React’s Virtual DOM re-render cycle.
+
+In simple Language,
+event.target gives x in Chrome ,,,event.target gives y in Edge ,,,event.target gives z in Brave
+Now for every Browser we have to update the code (if written in Js ) according to the desired result 
+
+But React solves this problem 
+How ?? It uses its own synthetic events instead of Browser Native events directly 
+It uses the same logic everywhere on Front Side and show the same Output on every Browser using 
+Virtual DOm and synthetic events 
+
+and in Backend it reshapes the code according to the specific browser and updates the changes in 
+Browser Dom actually (Automatically )
+
+Thats why everywhere same.. 

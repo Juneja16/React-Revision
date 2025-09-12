@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controlled vs Uncontrolled Reset</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: radial-gradient(
+          circle at center,
+          #0f2027,
+          #203a43,
+          #2c5364
+        );
+        color: white;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      input {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #56ccf2, #2f80ed);
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      .preview {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+      }
+      .card {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 15px;
+        border-radius: 10px;
+      }
+      .card h3 {
+        margin-bottom: 10px;
+        color: #00e0ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        // Controlled input
+        const [controlledValue, setControlledValue] = React.useState("");
+
+        // Uncontrolled input
+        const uncontrolledRef = React.useRef();
+        const [uncontrolledDisplay, setUncontrolledDisplay] =
+          React.useState("");
+
+        // Reset both inputs
+        const handleReset = () => {
+          setControlledValue(""); // React clears it
+          uncontrolledRef.current.value = ""; // Clear DOM input
+          setUncontrolledDisplay(""); // Clear display too
+        };
+
+        // On submit, update what we *know* about uncontrolled input
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          setUncontrolledDisplay(uncontrolledRef.current.value);
+        };
+
+        return (
+          <div className="container">
+            <h1>Controlled vs Uncontrolled ✨</h1>
+
+            <form onSubmit={handleSubmit}>
+              {/* Controlled input */}
+              <div>
+                <label>Controlled Input (React state):</label>
+                <br />
+                <input
+                  type="text"
+                  value={controlledValue}
+                  onChange={(e) => setControlledValue(e.target.value)}
+                />
+              </div>
+
+              {/* Uncontrolled input */}
+              <div>
+                <label>Uncontrolled Input (DOM ref):</label>
+                <br />
+                <input type="text" ref={uncontrolledRef} />
+              </div>
+
+              <button type="submit">Submit</button>
+              <button type="button" onClick={handleReset}>
+                Reset Both
+              </button>
+            </form>
+
+            {/* Live Preview */}
+            <div className="preview">
+              <div className="card">
+                <h3>Controlled Value</h3>
+                <p>{controlledValue || "Nothing here yet"}</p>
+              </div>
+              <div className="card">
+                <h3>Uncontrolled Value</h3>
+                <p>{uncontrolledDisplay || "Nothing here yet"}</p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+
+
+<!-- Controlled (State handles it — React handles it)
+
+When we say state handles it, it means:
+
+The input’s value is stored inside React state (useState).
+
+Every keystroke triggers onChange, and React updates its Virtual DOM.
+
+The actual DOM value is just a reflection of React’s state.
+
+👉 So the source of truth is React.
+If React says the value is "Hello", the input will always show "Hello".
+
+Flow (controlled):
+Keyboard → onChange → React state → React re-renders → updates DOM input.
+
+🔑 Uncontrolled (Ref handles it — DOM handles it)
+
+When we say ref/DOM handles it, it means:
+
+The input is a normal HTML element, and the browser updates its value directly when you type.
+
+React does not track the changes.
+
+To get the value, you must use a ref (ref.current.value) and ask the DOM: “Hey, what’s inside right now?”
+
+👉 So the source of truth is the DOM itself.
+React only looks at it when you explicitly ask with ref.
+
+Flow (uncontrolled):
+Keyboard → Browser directly updates input box → React doesn’t know until you read ref.current.value -->

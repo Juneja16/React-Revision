@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controlled vs Uncontrolled Reset</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+        color: white;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      input {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #56ccf2, #2f80ed);
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      .preview {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+      }
+      .card {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 15px;
+        border-radius: 10px;
+      }
+      .card h3 {
+        margin-bottom: 10px;
+        color: #00e0ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        // Controlled input
+        const [controlledValue, setControlledValue] = React.useState("");
+
+        // Uncontrolled input
+        const uncontrolledRef = React.useRef();
+
+        // Reset both inputs
+        const handleReset = () => {
+          setControlledValue(""); // React instantly clears it
+          uncontrolledRef.current.value = ""; // Manually clear DOM value
+        };
+
+        return (
+          <div className="container">
+            <h1>Controlled vs Uncontrolled Reset ✨</h1>
+
+            {/* Controlled input */}
+            <div>
+              <label>Controlled Input (React state):</label>
+              <br />
+              <input
+                type="text"
+                value={controlledValue}
+                onChange={(e) => setControlledValue(e.target.value)}
+              />
+            </div>
+
+            {/* Uncontrolled input */}
+            <div>
+              <label>Uncontrolled Input (DOM ref):</label>
+              <br />
+              <input type="text" ref={uncontrolledRef} />
+            </div>
+
+            <button onClick={handleReset}>Reset Both</button>
+
+            {/* Live Preview */}
+            <div className="preview">
+              <div className="card">
+                <h3>Controlled Value</h3>
+                <p>{controlledValue || "Nothing here yet"}</p>
+              </div>
+              <div className="card">
+                <h3>Uncontrolled Value</h3>
+                <p>{uncontrolledRef.current?.value || "Nothing here yet"}</p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

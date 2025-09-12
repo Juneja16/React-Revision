@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple React Form</title>
+    <!-- React and ReactDOM CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Babel CDN (to compile JSX in browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        const [name, setName] = React.useState("");
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          setName("This is Updated One");
+          //   alert(`Your name is ${name}`);
+        };
+
+        return (
+          <>
+            {name && <h1>Hello, {name}!</h1>}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                value={name} // Just for showing controlled component
+                // nothing different if we remove this line
+                // just value will not be controlled by React State then
+                onChange={(e) => setName(e.target.value)}
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+
+<!--  Here App Component is a Controlled Component as the value of input is
+controlled by React State (name). onchange changes the state immediately as user
+changes the input value. Now that is being visible through {name} rendering in
+h1 tag. But on submit, we are updating the state to a new value.to show that
+state can be updated programmatically too and that too what the developer wants.
+
+
+This is better than using useRef as in previous example because there the value
+of input was not being controlled by React State. So if we wanted to change the
+value of input we could not do that directly. We had to change the value of the
+ref.current which is not the recommended way in React.  -->
+
+
+
+<!-- When to use what?
+1. Controlled (state + onChange) → recommended for most forms (clean, React-driven).
+
+2. Uncontrolled (ref) → useful when:
+
+You don’t need to update the UI as user types.
+
+Performance matters (lots of inputs).
+
+File inputs (since they can’t be controlled easily). -->

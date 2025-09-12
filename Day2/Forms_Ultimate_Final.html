@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Forms - Universe Theme</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at top, #0b0c10, #000);
+        color: #fff;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #8e2de2, #4a00e0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 30px;
+      }
+
+      form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        margin-bottom: 30px;
+      }
+
+      label {
+        display: block;
+        margin: 15px 0 5px;
+        font-size: 1.1rem;
+      }
+
+      input {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 12px 24px;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+      }
+
+      .preview {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .card {
+        flex: 1;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        min-height: 120px;
+      }
+
+      .card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #00e0ff;
+      }
+
+      .card p {
+        font-size: 1.2rem;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        // Controlled input → React tracks via state
+        const [controlledName, setControlledName] = React.useState("");
+
+        // Uncontrolled input → React doesn't track directly
+        const uncontrolledRef = React.useRef();
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(
+            `Controlled: ${controlledName}\nUncontrolled: ${uncontrolledRef.current.value}`
+          );
+        };
+
+        return (
+          <div className="container">
+            <h1>Universe of React Forms 🌌</h1>
+
+            <form onSubmit={handleSubmit}>
+              {/* Controlled */}
+              <label>Controlled Name (tracked by React):</label>
+              <input
+                type="text"
+                value={controlledName}
+                onChange={(e) => setControlledName(e.target.value)}
+              />
+
+              {/* Uncontrolled */}
+              <label>Uncontrolled Name (tracked by DOM):</label>
+              <input type="text" ref={uncontrolledRef} />
+
+              <button type="submit">Submit 🚀</button>
+            </form>
+
+            {/* Live Preview */}
+            <div className="preview">
+              <div className="card">
+                <h2>Controlled Value</h2>
+                <p>{controlledName || "Nothing typed yet"}</p>
+              </div>
+              <div className="card">
+                <h2>Uncontrolled Value</h2>
+                <p>
+                  {uncontrolledRef.current?.value || "React doesn’t track this"}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

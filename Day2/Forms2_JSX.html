@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple React Form</title>
+    <!-- React and ReactDOM CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Babel CDN (to compile JSX in browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        const nameRef = React.useRef();
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(`Your name is ${nameRef.current.value}`);
+        };
+
+        return (
+          <>
+            {nameRef.current && nameRef.current.value && (
+              <h1>Hello, {nameRef.current.value}!</h1>
+            )}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                value={nameRef.current && nameRef.current.value}
+                ref={nameRef}
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+
+
+
+<!-- ref values (nameRef.current.value) do not cause React to re-render when they change.
+
+When you type in the input, React doesn’t know anything has changed → 
+so the <h1> doesn’t show up, even after submit. -->

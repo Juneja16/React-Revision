@@ -32,7 +32,8 @@ Why Virtual DOM Feels Faster
 4.Memory-first updates: Most work happens in JavaScript memory, not in the heavy DOM engine.
 
 5. <script language="javaScript">
-heading = React.createElement("h1", null, "Hello");
+heading1 = React.createElement("h1", null, "Hello");
+const heading_2= <h1 className="heading1">Hello React Second code</h1>;
 ReactDOM.createRoot(document.getElementById("root")).render(heading);
 </script>
 
@@ -62,3 +63,15 @@ Only 7 values are falsy:
 8.NaN
 
 (That’s it — everything else is truthy, even things like "0", "false", [], {}, etc.)
+
+7.Can React Render null/undefined normally??
+The ans is NO .It neglects these values during Rendering and hence to show them 
+we have to convert them to String 
+
+<div>{String(null)}</div>       // shows "null"
+<div>{String(undefined)}</div>  // shows "undefined"
+         Or:
+
+jsx
+<div>{null + ""}</div>          // "null"
+<div>{undefined + ""}</div>     // "undefined"
