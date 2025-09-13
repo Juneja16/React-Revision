@@ -25,8 +25,8 @@
 
         const handleSubmit = (e) => {
           e.preventDefault();
-          alert(`Your name is ${nameRef.current.value}`);
         };
+        alert(`Your name is ${nameRef.current.value}`);
 
         return (
           <>
@@ -35,9 +35,9 @@
             )}
             <form onSubmit={handleSubmit}>
               <input
+              ref={nameRef}
                 type="text"
                 value={nameRef.current && nameRef.current.value}
-                ref={nameRef}
               />
               <button type="submit">Submit</button>
             </form>
@@ -50,8 +50,6 @@
     </script>
   </body>
 </html>
-
-
 
 <!-- ref values (nameRef.current.value) do not cause React to re-render when they change.
 
