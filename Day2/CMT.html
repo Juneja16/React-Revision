@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>React App</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      let customers = [];
+      const capacity = 25;
+      let seatsLeft = 25;
+
+      const countRef = React.createRef();
+      const nameRef = React.createRef();
+      const numberRef = React.createRef();
+
+      const clearInput = () => {
+        countRef.current.value = "";
+        nameRef.current.value = "";
+        numberRef.current.value = "";
+      };
+
+      // Create form submit handler here
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (seatsLeft > 0 && seatsLeft >=countRef.current.value) {
+          customers.push({
+            count: countRef.current.value,
+            name: nameRef.current.value,
+            number: numberRef.current.value,
+            inTime: Date.now(),
+          });
+          seatsLeft-=countRef.current.value;
+          clearInput(e);
+          rootElement.render(<App />);
+        }
+      };
+      // Remove Entry
+      const handleRemove = (inTime) => {
+        const custmerDetail = customers.find(c=>c.inTime===inTime)
+        const updateCustomers = customers.filter((c) => c.inTime !== inTime);
+        customers = updateCustomers
+        seatsLeftm += custmerDetail.countRef.current.value;
+        rootElement.render(<App />);
+      };
+
+      const Form = () => {
+        return (
+          <form onSubmit={handleSubmit}>
+            <input type="number" placeholder="Guest Count" ref={countRef} />
+            <input type="text" placeholder="Primary Guest Name" ref={nameRef} />
+            <input type="tel" placeholder="Phone Number" ref={numberRef} />
+            <button type="submit">Add Entry</button>
+          </form>
+        );
+      };
+
+      const App = () => (
+        <div className="App" style={{ textAlign: "center" }}>
+          <div>
+            <h2>Total Capacity:{capacity} </h2>
+            <h2>Seats Left: {seatsLeft}</h2>
+          </div>
+
+          <Form />
+
+          <table border="1px" style={{ margin: "auto" }}>
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Check In</th>
+                <th>Remove Entry</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((c) => (
+                <tr key={c.inTime}>
+                  <td>{c.count}</td>
+                  <td>{c.name}</td>
+                  <td>{c.number}</td>
+                  <td>{c.inTime}</td>
+                  <td>
+                    <button onClick={() => handleRemove(c.inTime)}>
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+  </body>
+</html>
