@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced React Form</title>
+    <!-- React and ReactDOM CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Babel CDN (to compile JSX in browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        const [name, setName] = React.useState("");
+        const [isSubmitted, setIsSubmitted] = React.useState(false);
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          setIsSubmitted(true);
+          // In a real app, you would likely do something with the data here
+        };
+
+        const handleReset = () => {
+          setName("");
+          setIsSubmitted(false);
+        };
+
+        return (
+          <div style={styles.container}>
+            <div style={styles.card}>
+              {!isSubmitted ? (
+                <>
+                  <h1 style={styles.title}>
+                    <i className="fas fa-user-circle"></i> Enter Your Name
+                  </h1>
+                  <p style={styles.subtitle}>Please provide your name below</p>
+
+                  <form onSubmit={handleSubmit} style={styles.form}>
+                    <div style={styles.inputGroup}>
+                      <i className="fas fa-user" style={styles.inputIcon}></i>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Your name"
+                        style={styles.input}
+                        required
+                      />
+                    </div>
+
+                    <div style={styles.buttonGroup}>
+                      <button
+                        type="submit"
+                        style={styles.submitButton}
+                        disabled={!name.trim()}
+                      >
+                        <i className="fas fa-paper-plane"></i> Submit
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        style={styles.resetButton}
+                      >
+                        <i className="fas fa-redo"></i> Reset
+                      </button>
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <div style={styles.successContainer}>
+                  <div style={styles.successIcon}>
+                    <i className="fas fa-check-circle"></i>
+                  </div>
+                  <h2 style={styles.successTitle}>Hello, {name}!</h2>
+                  <p style={styles.successMessage}>
+                    Your name has been successfully submitted.
+                  </p>
+                  <button onClick={handleReset} style={styles.backButton}>
+                    <i className="fas fa-arrow-left"></i> Go Back
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <footer style={styles.footer}>
+              <p>Controlled Component Example - React Form</p>
+            </footer>
+          </div>
+        );
+      }
+
+      // Styling with dark blue theme
+      const styles = {
+        container: {
+          minHeight: "100vh",
+          backgroundColor: "#0a192f",
+          color: "#e6f1ff",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px",
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        },
+        card: {
+          backgroundColor: "#112240",
+          borderRadius: "12px",
+          padding: "40px",
+          width: "100%",
+          maxWidth: "500px",
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
+          border: "1px solid #1d3a5c",
+        },
+        title: {
+          textAlign: "center",
+          marginBottom: "10px",
+          fontSize: "28px",
+          color: "#64ffda",
+        },
+        subtitle: {
+          textAlign: "center",
+          marginBottom: "30px",
+          color: "#a8b2d1",
+          fontSize: "16px",
+        },
+        form: {
+          width: "100%",
+        },
+        inputGroup: {
+          position: "relative",
+          marginBottom: "25px",
+        },
+        inputIcon: {
+          position: "absolute",
+          left: "15px",
+          top: "14px",
+          color: "#64ffda",
+          fontSize: "18px",
+        },
+        input: {
+          width: "100%",
+          padding: "15px 15px 15px 45px",
+          borderRadius: "8px",
+          border: "2px solid #1d3a5c",
+          backgroundColor: "#0a192f",
+          color: "#e6f1ff",
+          fontSize: "16px",
+          boxSizing: "border-box",
+          transition: "all 0.3s ease",
+        },
+        buttonGroup: {
+          display: "flex",
+          gap: "15px",
+          justifyContent: "center",
+        },
+        submitButton: {
+          padding: "12px 25px",
+          borderRadius: "8px",
+          border: "none",
+          backgroundColor: "#64ffda",
+          color: "#0a192f",
+          fontSize: "16px",
+          fontWeight: "600",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        },
+        resetButton: {
+          padding: "12px 25px",
+          borderRadius: "8px",
+          border: "2px solid #1d3a5c",
+          backgroundColor: "transparent",
+          color: "#64ffda",
+          fontSize: "16px",
+          fontWeight: "600",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        },
+        successContainer: {
+          textAlign: "center",
+          padding: "20px",
+        },
+        successIcon: {
+          fontSize: "60px",
+          color: "#64ffda",
+          marginBottom: "20px",
+        },
+        successTitle: {
+          fontSize: "28px",
+          marginBottom: "10px",
+          color: "#e6f1ff",
+        },
+        successMessage: {
+          fontSize: "16px",
+          color: "#a8b2d1",
+          marginBottom: "30px",
+        },
+        backButton: {
+          padding: "12px 25px",
+          borderRadius: "8px",
+          border: "none",
+          backgroundColor: "#1d3a5c",
+          color: "#e6f1ff",
+          fontSize: "16px",
+          fontWeight: "600",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          margin: "0 auto",
+        },
+        footer: {
+          marginTop: "40px",
+          textAlign: "center",
+          color: "#a8b2d1",
+          fontSize: "14px",
+        },
+      };
+
+      // Add hover effects using CSS-in-JS
+      const addHoverEffects = () => {
+        const style = document.createElement("style");
+        style.textContent = `
+          input:hover {
+            border-color: #64ffda !important;
+          }
+          
+          button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          }
+          
+          .submit-button:hover {
+            background-color: #4fdcb8 !important;
+          }
+          
+          .reset-button:hover {
+            background-color: rgba(29, 58, 92, 0.2) !important;
+          }
+        `;
+        document.head.appendChild(style);
+      };
+
+      // Call the function to add hover effects
+      addHoverEffects();
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
